@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biopharma Solutions | Research Projects</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:     #0b2e4f;
+      --navy-mid: #103d66;
+      --blue:     #0a6cf1;
+      --blue-lt:  #3d8ef5;
+      --accent:   #00c8a0;
+      --bg:       #f0f4f9;
+      --card-bg:  #ffffff;
+      --text:     #1a2d3e;
+      --muted:    #5a7080;
+      --border:   #dce6f0;
+    }
+
+    /* ─── RESET / BASE ─────────────────────────────── */
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── SITE HEADER ──────────────────────────────── */
+    .site-header {
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+    }
+
+    .header-inner {
+      max-width: 1260px;
+      margin: auto;
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .site-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--accent), var(--blue-lt));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: #fff;
+      font-style: italic;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-tagline {
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* NAV */
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .site-nav a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      letter-spacing: 0.01em;
+    }
+
+    .site-nav a:hover,
+    .site-nav a.active {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .site-nav a.active {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      background: var(--blue) !important;
+      color: #fff !important;
+      padding: 7px 18px !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--blue-lt) !important;
+    }
+
+    /* HAMBURGER (mobile) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* ─── PAGE HERO ────────────────────────────────── */
+    .page-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 55%, #0d4a7a 100%);
+      padding: 72px 32px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 20%, rgba(0,200,160,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(10,108,241,0.14) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,200,160,0.4), transparent);
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,200,160,0.12);
+      border: 1px solid rgba(0,200,160,0.3);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .page-hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .page-hero p {
+      color: rgba(255,255,255,0.65);
+      font-size: 16px;
+      font-weight: 300;
+      max-width: 560px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat .num {
+      display: block;
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .hero-stat .label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ─── FILTER BAR ───────────────────────────────── */
+    .filter-bar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 68px;
+      z-index: 90;
+    }
+
+    .filter-inner {
+      max-width: 1260px;
+      margin: auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      height: 54px;
+      scrollbar-width: none;
+    }
+
+    .filter-inner::-webkit-scrollbar { display: none; }
+
+    .filter-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      white-space: nowrap;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .filter-btn.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+    }
+
+    /* ─── MAIN CONTENT ─────────────────────────────── */
+    .main-content {
+      flex: 1;
+      max-width: 1260px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 48px 32px 64px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px;
+      color: var(--navy);
+    }
+
+    .project-count {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ─── PROJECT GRID ─────────────────────────────── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--accent));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(11,46,79,0.12);
+      border-color: rgba(10,108,241,0.2);
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-area {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eef4ff;
+      color: var(--blue);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+
+    .card-area svg {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 17px;
+      color: var(--navy);
+      line-height: 1.35;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .card-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      gap: 12px;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    .meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      background: var(--navy);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .card-btn svg {
+      width: 13px;
+      height: 13px;
+      transition: transform 0.2s;
+    }
+
+    .card-btn:hover {
+      background: var(--blue);
+      transform: translateX(1px);
+    }
+
+    .card-btn:hover svg {
+      transform: translateX(2px);
+    }
+
+    /* ─── SITE FOOTER ──────────────────────────────── */
+    .site-footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.6);
+    }
+
+    .footer-main {
+      max-width: 1260px;
+      margin: auto;
+      padding: 52px 32px 40px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand .logo-name { font-size: 17px; }
+
+    .footer-brand p {
+      font-size: 13px;
+      line-height: 1.7;
+      margin-top: 14px;
+      color: rgba(255,255,255,0.45);
+      max-width: 280px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .social-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .social-icon:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .footer-col h4 {
+      color: rgba(255,255,255,0.85);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul a {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      font-size: 13.5px;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul a:hover {
+      color: var(--accent);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom p {
+      font-size: 12.5px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 12.5px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────── */
+    @media (max-width: 900px) {
+      .footer-main {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .site-nav { display: none; }
+      .hamburger { display: flex; }
+
+      .page-hero { padding: 52px 20px 44px; }
+
+      .main-content { padding: 32px 20px 48px; }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr;
+        padding: 40px 20px 28px;
+      }
+
+      .footer-bottom {
+        padding: 16px 20px;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-stats {
+        gap: 24px;
+      }
+
+      .filter-inner {
+        padding: 0 20px;
+      }
+    }
+
+    /* ─── ANIMATIONS ───────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .project-card {
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .project-card:nth-child(1)  { animation-delay: 0.04s; }
+    .project-card:nth-child(2)  { animation-delay: 0.08s; }
+    .project-card:nth-child(3)  { animation-delay: 0.12s; }
+    .project-card:nth-child(4)  { animation-delay: 0.16s; }
+    .project-card:nth-child(5)  { animation-delay: 0.20s; }
+    .project-card:nth-child(6)  { animation-delay: 0.24s; }
+    .project-card:nth-child(7)  { animation-delay: 0.28s; }
+    .project-card:nth-child(8)  { animation-delay: 0.32s; }
+    .project-card:nth-child(9)  { animation-delay: 0.36s; }
+    .project-card:nth-child(10) { animation-delay: 0.40s; }
+    .project-card:nth-child(11) { animation-delay: 0.44s; }
+    .project-card:nth-child(12) { animation-delay: 0.48s; }
+    .project-card:nth-child(13) { animation-delay: 0.52s; }
+    .project-card:nth-child(14) { animation-delay: 0.56s; }
+    .project-card:nth-child(15) { animation-delay: 0.60s; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════ SITE HEADER ════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+
+    <a href="/" class="site-logo">
+      <div class="logo-mark">B</div>
+      <div class="logo-text">
+        <span class="logo-name">Biopharma Solutions</span>
+        <span class="logo-tagline">Computational Drug Design &amp; AI Research</span>
+      </div>
+    </a>
+
+    <nav class="site-nav">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#" class="active">Projects</a>
+      <a href="#">Services</a>
+      <a href="#">Publications</a>
+      <a href="#" class="nav-cta">Contact Us</a>
+    </nav>
+
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+<!-- ════════════ PAGE HERO ════════════ -->
+<section class="page-hero">
+  <div class="hero-eyebrow">Active Research Portfolio</div>
+  <h1>Research &amp; Student Projects</h1>
+  <p>Bridging AI, genomics, and computational biology to accelerate drug discovery and precision medicine.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="num">15</span>
+      <span class="label">Active Projects</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">7</span>
+      <span class="label">Research Areas</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">3</span>
+      <span class="label">Ongoing Cohorts</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">2026</span>
+      <span class="label">Intake Year</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FILTER BAR ════════════ -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" data-filter="all">All Projects</button>
+    <button class="filter-btn" data-filter="drug-design">Drug Design</button>
+    <button class="filter-btn" data-filter="pharmacogenomics">Pharmacogenomics</button>
+    <button class="filter-btn" data-filter="ai-health">AI &amp; Healthcare</button>
+    <button class="filter-btn" data-filter="rna">RNA Therapeutics</button>
+    <button class="filter-btn" data-filter="systems">Systems Biology</button>
+    <button class="filter-btn" data-filter="nutritional">Nutritional Science</button>
+  </div>
+</div>
+
+<!-- ════════════ MAIN CONTENT ════════════ -->
+<main class="main-content">
+
+  <div class="section-header">
+    <h2 class="section-title">Current Projects</h2>
+    <span class="project-count" id="project-count">Showing 15 projects</span>
+  </div>
+
+  <div class="project-grid" id="project-grid">
+
+    <!-- Project 1 -->
+    <article class="project-card" data-area="drug-design">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Computational Drug Design
+      </div>
+      <h3 class="card-title">AI-Driven Discovery of PARP1 Inhibitors for Breast Cancer</h3>
+      <p class="card-desc">Identify novel inhibitors of PARP1 using molecular docking, pharmacophore modeling, MD simulation, and AI-based screening.</p>
+      <div class="card-footer">
+        <div class="card-meta">
+          <span class="meta-dot"></span>
+          Open for Enrollment
+        </div>
+        <a href="#" class="card-btn">
+          Details
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Project 2 -->
+    <article class="project-card" data-area="pharmacogenomics">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+        Pharmacogenomics
+      </div>
+      <h3 class="card-title">Pharmacogenomic Analysis of Chemotherapy Response</h3>
+      <p class="card-desc">Analyze genomic variants influencing chemotherapy response using TCGA data, SNP analysis, and survival analysis.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 3 -->
+    <article class="project-card" data-area="systems">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v3M8.5 17l-1.5-5M15.5 17l1.5-5"/></svg>
+        Systems Pharmacology
+      </div>
+      <h3 class="card-title">Network Pharmacology of Medicinal Plants for Cancer</h3>
+      <p class="card-desc">Identify plant-derived metabolites targeting multiple cancer pathways using network analysis and docking.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 4 -->
+    <article class="project-card" data-area="ai-health">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        AI in Healthcare
+      </div>
+      <h3 class="card-title">AI-Based Breast Cancer Early Diagnosis</h3>
+      <p class="card-desc">Develop deep learning models for early detection of breast cancer using genomic and clinical datasets.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 5 -->
+    <article class="project-card" data-area="rna">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"/><path d="M5 19.5C5.5 18 6 15 6 12c0-4.4 3.6-8 8-8"/><path d="M10.5 21.5C10.5 19 9 13.5 9 12c0-2.8 2.2-5 5-5"/></svg>
+        RNA Therapeutics
+      </div>
+      <h3 class="card-title">mRNA Vaccine Design for Lung Cancer</h3>
+      <p class="card-desc">Design a multi-epitope mRNA vaccine using immunoinformatics, RNA folding, and immune simulation tools.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 6 -->
+    <article class="project-card" data-area="pharmacogenomics">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+        Precision Oncology
+      </div>
+      <h3 class="card-title">Pharmacogenomics of EGFR Targeted Therapy</h3>
+      <p class="card-desc">Study genetic factors influencing response to EGFR inhibitors in lung cancer patients.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 7 -->
+    <article class="project-card" data-area="nutritional">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.5-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
+        Nutritional Bioinformatics
+      </div>
+      <h3 class="card-title">Food-Derived Phytochemicals Supporting Cancer Therapy</h3>
+      <p class="card-desc">Identify dietary phytochemicals that may support cancer therapy using docking and pathway analysis.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 8 -->
+    <article class="project-card" data-area="drug-design">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Antibiotic Drug Design
+      </div>
+      <h3 class="card-title">Computational Discovery of PBP2a Inhibitors for MRSA</h3>
+      <p class="card-desc">Design inhibitors targeting the PBP2a enzyme responsible for methicillin resistance.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 9 -->
+    <article class="project-card" data-area="systems">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v3M8.5 17l-1.5-5M15.5 17l1.5-5"/></svg>
+        Cancer Systems Biology
+      </div>
+      <h3 class="card-title">Systems Biology Analysis of Tumor Hypoxia</h3>
+      <p class="card-desc">Identify key genes and pathways involved in tumor hypoxia and therapy resistance.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 10 -->
+    <article class="project-card" data-area="pharmacogenomics">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+        Precision Medicine
+      </div>
+      <h3 class="card-title">Pharmacogenomic Prediction of Chemotherapy Toxicity</h3>
+      <p class="card-desc">Predict adverse drug reactions using genomic markers and AI-based prediction models.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 11 -->
+    <article class="project-card" data-area="drug-design">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Computational Drug Discovery
+      </div>
+      <h3 class="card-title">AI Screening of Natural Compounds Targeting JAK-STAT</h3>
+      <p class="card-desc">Identify natural inhibitors of the JAK-STAT signaling pathway using AI-assisted screening.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 12 -->
+    <article class="project-card" data-area="nutritional">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.5-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
+        Nutritional Pharmacology
+      </div>
+      <h3 class="card-title">Polyphenols Modulating Cancer Signaling Pathways</h3>
+      <p class="card-desc">Study how diet-derived polyphenols interact with cancer signaling pathways.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 13 -->
+    <article class="project-card" data-area="rna">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"/><path d="M5 19.5C5.5 18 6 15 6 12c0-4.4 3.6-8 8-8"/><path d="M10.5 21.5C10.5 19 9 13.5 9 12c0-2.8 2.2-5 5-5"/></svg>
+        RNA Therapeutics
+      </div>
+      <h3 class="card-title">miRNA-Based Therapeutics for Ovarian Cancer</h3>
+      <p class="card-desc">Identify miRNA molecules regulating oncogenic pathways using computational modeling.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 14 -->
+    <article class="project-card" data-area="ai-health">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Drug Repurposing
+      </div>
+      <h3 class="card-title">AI-Driven Drug Repurposing for Cancer</h3>
+      <p class="card-desc">Discover existing drugs with potential anticancer activity using AI and network analysis.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Project 15 -->
+    <article class="project-card" data-area="pharmacogenomics">
+      <div class="card-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+        Precision Oncology
+      </div>
+      <h3 class="card-title">Multi-Omics Analysis for Personalized Cancer Therapy</h3>
+      <p class="card-desc">Integrate genomics, transcriptomics, and proteomics data to identify personalized treatment strategies.</p>
+      <div class="card-footer">
+        <div class="card-meta"><span class="meta-dot"></span>Open for Enrollment</div>
+        <a href="#" class="card-btn">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+  </div><!-- /project-grid -->
+</main>
+
+<!-- ════════════ SITE FOOTER ════════════ -->
+<footer class="site-footer">
+  <div class="footer-main">
+
+    <div class="footer-brand">
+      <a href="/" class="site-logo" style="text-decoration:none;">
+        <div class="logo-mark">B</div>
+        <div class="logo-text">
+          <span class="logo-name">Biopharma Solutions</span>
+          <span class="logo-tagline">Computational Drug Design &amp; AI Research</span>
+        </div>
+      </a>
+      <p>Advancing drug discovery through artificial intelligence, bioinformatics, and precision medicine research.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-icon" aria-label="LinkedIn">in</a>
+        <a href="#" class="social-icon" aria-label="Twitter">𝕏</a>
+        <a href="#" class="social-icon" aria-label="ResearchGate">RG</a>
+        <a href="#" class="social-icon" aria-label="GitHub">GH</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Research</h4>
+      <ul>
+        <li><a href="#">All Projects</a></li>
+        <li><a href="#">Drug Design</a></li>
+        <li><a href="#">AI Biology</a></li>
+        <li><a href="#">Pharmacogenomics</a></li>
+        <li><a href="#">RNA Therapeutics</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Team</a></li>
+        <li><a href="#">Publications</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Collaborations</a></li>
+        <li><a href="#">Student Inquiries</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Biopharma Solutions. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Sitemap</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════ SCRIPTS ════════════ -->
+<script>
+  // Filter functionality
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.project-card');
+  const countEl = document.getElementById('project-count');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      let visible = 0;
+
+      cards.forEach(card => {
+        const show = filter === 'all' || card.dataset.area === filter;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      countEl.textContent = `Showing ${visible} project${visible !== 1 ? 's' : ''}`;
+    });
+  });
+</script>
+
+</body>
+</html>

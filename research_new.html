@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research & Innovation – Biopharma Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue-deep: #060f1e;
+  --blue-mid: #0a1a36;
+  --teal: #00d4ff;
+  --teal-dim: #00b4d8;
+  --orange: #ff7b00;
+  --orange-glow: rgba(255,123,0,0.4);
+  --teal-glow: rgba(0,212,255,0.4);
+  --white: #ffffff;
+  --grey-light: #f0f5fc;
+  --grey-mid: #dce6f0;
+  --text-dark: #0d1f3c;
+  --text-body: #3a4f72;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(0,212,255,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Open Sans',sans-serif;color:var(--text-dark);background:var(--blue-deep);overflow-x:hidden;cursor:none}
+
+.cursor{position:fixed;width:12px;height:12px;background:var(--teal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,width 0.3s,height 0.3s,background 0.3s;mix-blend-mode:screen}
+.cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid rgba(0,212,255,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.15s ease-out,width 0.3s,height 0.3s,border-color 0.3s}
+.cursor.hover{width:20px;height:20px;background:var(--orange)}
+.cursor-ring.hover{width:60px;height:60px;border-color:rgba(255,123,0,0.4)}
+
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:0 3rem;height:68px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+nav.scrolled{background:rgba(6,15,30,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);box-shadow:0 4px 30px rgba(0,0,0,0.3)}
+.nav-logo{display:flex;align-items:center;gap:0;text-decoration:none}
+.nav-logo-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--teal),var(--orange));display:flex;align-items:center;justify-content:center;font-size:20px;position:relative;overflow:hidden}
+.nav-logo-icon::after{content:'';position:absolute;inset:-100%;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.3),transparent);animation:logoShine 3s infinite}
+@keyframes logoShine{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(200%) rotate(45deg)}}
+.nav-logo-text{color:var(--white);font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:0.5px}
+.nav-logo-text span{color:var(--teal)}
+.nav-links{display:flex;align-items:center;gap:0.1rem}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-family:'Montserrat',sans-serif;font-size:0.78rem;font-weight:500;padding:0.5rem 0.7rem;border-radius:6px;transition:all 0.2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:2px;background:linear-gradient(90deg,var(--teal),var(--orange));border-radius:2px;transition:all 0.3s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{left:0.7rem;right:0.7rem}
+
+.scroll-top{position:fixed;bottom:2rem;right:2rem;width:46px;height:46px;background:linear-gradient(135deg,var(--teal),var(--orange));border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:none;z-index:500;opacity:0;transform:translateY(20px);transition:all 0.3s;font-size:1.1rem;color:var(--blue-deep);font-weight:700}
+.scroll-top.visible{opacity:1;transform:translateY(0)}
+.scroll-top:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(0,212,255,0.4)}
+
+section{padding:5rem 3rem}
+.section-inner{max-width:1300px;margin:0 auto}
+.s-tag{display:inline-block;color:var(--orange);font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.8rem;position:relative}
+.s-tag::before{content:'//';margin-right:6px;color:var(--teal);opacity:0.6}
+.s-title{font-family:'Montserrat',sans-serif;font-size:2.8rem;font-weight:900;line-height:1.15;margin-bottom:1rem}
+.s-title-light{color:var(--white)}
+.s-title-dark{color:var(--text-dark)}
+.s-title .teal{color:var(--teal)}
+.s-title .orange{color:var(--orange)}
+.s-sub{font-size:1rem;line-height:1.9;max-width:580px}
+.s-sub-light{color:rgba(255,255,255,0.55)}
+.s-sub-dark{color:var(--text-body)}
+
+.reveal{opacity:0;transform:translateY(50px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.delay-1{transition-delay:0.1s}.delay-2{transition-delay:0.2s}.delay-3{transition-delay:0.3s}.delay-4{transition-delay:0.4s}
+
+.expertise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem}
+.tilt-card{background:var(--white);border:1px solid var(--grey-mid);border-radius:20px;padding:2.2rem;transform-style:preserve-3d;transition:box-shadow 0.3s;position:relative;overflow:hidden;cursor:none}
+.tilt-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(0,212,255,0.07),transparent 60%);opacity:0;transition:opacity 0.3s}
+.tilt-card:hover::after{opacity:1}
+.tilt-card-bar{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--orange));transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+.tilt-card:hover .tilt-card-bar{transform:scaleX(1)}
+.tilt-card:hover{box-shadow:0 25px 60px rgba(0,30,80,0.15),0 0 0 1px rgba(0,212,255,0.1)}
+.card-icon-wrap{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin-bottom:1.3rem;position:relative;overflow:hidden;transition:transform 0.3s}
+.tilt-card:hover .card-icon-wrap{transform:scale(1.1) rotate(-5deg)}
+.icon-teal-bg{background:linear-gradient(135deg,rgba(0,212,255,0.12),rgba(0,180,216,0.06))}
+.icon-orange-bg{background:linear-gradient(135deg,rgba(255,123,0,0.12),rgba(255,149,0,0.06))}
+.card-title-t{font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem}
+.card-text-t{color:var(--text-body);font-size:0.86rem;line-height:1.75}
+
+.research-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem}
+.research-card-anim{border-radius:20px;padding:2.8rem;position:relative;overflow:hidden;cursor:none;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+.research-card-anim:hover{transform:scale(1.02) translateY(-4px)}
+.research-card-anim::after{content:'→';position:absolute;bottom:2rem;right:2rem;font-size:1.5rem;color:rgba(255,255,255,0.25);transition:all 0.3s}
+.research-card-anim:hover::after{color:rgba(255,255,255,0.9);transform:translateX(5px)}
+.rc-blue{background:linear-gradient(135deg,#0a1f4e,#1a3a7a)}
+.rc-teal{background:linear-gradient(135deg,#023d57,#006080)}
+.rc-orange{background:linear-gradient(135deg,#5c1f00,#9c3800)}
+.rc-green{background:linear-gradient(135deg,#0a3020,#145c3a)}
+.rc-icon{font-size:2.8rem;margin-bottom:1.2rem;display:block;transition:transform 0.3s}
+.research-card-anim:hover .rc-icon{transform:scale(1.15) rotate(-5deg)}
+.rc-title{color:var(--white);font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:0.7rem}
+.rc-text{color:rgba(255,255,255,0.65);font-size:0.88rem;line-height:1.8}
+.rc-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1.2rem}
+.rc-tag{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:50px;padding:3px 10px;color:rgba(255,255,255,0.6);font-family:'Montserrat',sans-serif;font-size:0.67rem;font-weight:600;letter-spacing:1px}
+
+.btn-mag{display:inline-flex;align-items:center;gap:10px;padding:0.9rem 2rem;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:0.88rem;font-weight:700;text-decoration:none;border:none;cursor:none;position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s}
+.btn-mag::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);opacity:0;transition:opacity 0.3s}
+.btn-mag:hover::before{opacity:1}
+.btn-primary-mag{background:linear-gradient(135deg,var(--teal),#0099bb);color:var(--blue-deep)}
+.btn-primary-mag:hover{box-shadow:0 0 30px var(--teal-glow),0 8px 25px rgba(0,180,216,0.4)}
+.btn-ghost-mag{background:transparent;border:1.5px solid rgba(0,212,255,0.3);color:rgba(255,255,255,0.8)}
+.btn-ghost-mag:hover{border-color:var(--teal);color:var(--white);box-shadow:0 0 20px rgba(0,212,255,0.15)}
+
+.page-hero{background:var(--blue-deep);padding:7rem 3rem 4rem;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:70px 70px;animation:gridDrift 20s linear infinite}
+@keyframes gridDrift{0%{background-position:0 0}100%{background-position:70px 70px}}
+.page-hero-inner{max-width:1300px;margin:0 auto;position:relative;z-index:1}
+.page-hero-tag{display:inline-block;color:var(--orange);font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem}
+.page-hero-tag::before{content:'// ';color:var(--teal)}
+.page-hero h1{font-family:'Montserrat',sans-serif;font-size:3rem;font-weight:900;color:var(--white);line-height:1.1;margin-bottom:1rem}
+.page-hero h1 span{color:var(--teal)}
+.page-hero p{color:rgba(255,255,255,0.55);font-size:1rem;line-height:1.9;max-width:620px}
+.page-hero-radial{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(0,212,255,0.06),transparent 60%),radial-gradient(ellipse 40% 40% at 10% 80%,rgba(255,123,0,0.04),transparent 50%)}
+
+/* ── Zotero publications styles ── */
+.zot-filter-btn{padding:0.45rem 1.1rem;border-radius:50px;font-size:0.78rem;font-family:'Montserrat',sans-serif;font-weight:600;cursor:pointer;border:1.5px solid var(--grey-mid);background:transparent;color:var(--text-body);transition:all 0.25s;letter-spacing:0.3px}
+.zot-filter-btn:hover,.zot-filter-btn.active{background:linear-gradient(135deg,var(--teal-dim),#0080aa);border-color:transparent;color:#fff}
+.zot-spinner{width:40px;height:40px;border:3px solid rgba(0,180,216,0.15);border-top-color:var(--teal-dim);border-radius:50%;animation:zotSpin 0.8s linear infinite}
+@keyframes zotSpin{to{transform:rotate(360deg)}}
+.zot-card{background:var(--grey-light);border:1px solid var(--grey-mid);border-radius:16px;padding:1.6rem;display:flex;flex-direction:column;gap:0.65rem;position:relative;overflow:hidden;transition:all 0.3s cubic-bezier(0.16,1,0.3,1)}
+.zot-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal-dim),var(--orange));transform:scaleX(0);transform-origin:left;transition:transform 0.35s cubic-bezier(0.16,1,0.3,1)}
+.zot-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,30,80,0.11);border-color:rgba(0,180,216,0.22)}
+.zot-card:hover::before{transform:scaleX(1)}
+.zot-type-badge{display:inline-block;padding:3px 10px;border-radius:50px;font-size:0.68rem;font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:1px;text-transform:uppercase;width:fit-content}
+.zot-badge-article{background:rgba(0,212,255,0.1);color:var(--teal-dim)}
+.zot-badge-chapter{background:rgba(45,180,100,0.1);color:#2db464}
+.zot-badge-conf{background:rgba(255,123,0,0.1);color:var(--orange)}
+.zot-badge-preprint{background:rgba(140,70,255,0.1);color:#7040c8}
+.zot-badge-other{background:rgba(0,0,0,0.06);color:var(--text-body)}
+.zot-title{font-family:'Montserrat',sans-serif;font-size:0.92rem;font-weight:700;color:var(--text-dark);line-height:1.55}
+.zot-authors{color:var(--text-body);font-size:0.81rem;line-height:1.6}
+.zot-journal{font-style:italic;color:var(--teal-dim);font-size:0.81rem;font-weight:600}
+.zot-meta{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;margin-top:auto;padding-top:0.55rem;border-top:1px solid var(--grey-mid)}
+.zot-year{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:rgba(0,0,0,0.38);font-weight:700}
+.zot-doi{display:inline-flex;align-items:center;gap:4px;color:var(--teal-dim);font-size:0.78rem;font-weight:700;text-decoration:none;font-family:'Montserrat',sans-serif;margin-left:auto;transition:all 0.2s}
+.zot-doi:hover{color:var(--orange);gap:7px}
+.zot-empty{grid-column:1/-1;text-align:center;padding:3rem;color:rgba(0,0,0,0.38);font-family:'Montserrat',sans-serif;font-size:0.88rem}
+
+footer{background:var(--blue-deep);border-top:1px solid rgba(0,212,255,0.08);padding:4rem 3rem 2rem}
+@media(max-width:1100px){.expertise-grid{grid-template-columns:repeat(2,1fr)}.research-grid{grid-template-columns:1fr}}
+@media(max-width:768px){nav{padding:0 1.5rem}.nav-links{display:none}section{padding:5rem 1.5rem}.page-hero{padding:5rem 1.5rem 3rem}.page-hero h1{font-size:2rem}.s-title{font-size:2rem}.expertise-grid,.research-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/wAAR" alt="Biopharma Solutions" style="height:44px;width:auto;display:block;object-fit:contain">
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="research.html">Research</a>
+    <a href="cadd.html">CADD</a>
+    <a href="ai.html">AI Discovery</a>
+    <a href="services.html">Services</a>
+    <a href="training.html">Training</a>
+    <a href="collaboration.html">Collaborate</a>
+    <a href="publications.html">Publications</a>
+    <a href="resources.html">Resources</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-radial"></div>
+  <div class="page-hero-inner">
+    <div class="page-hero-tag">Research Focus</div>
+    <h1>Research &amp; <span>Innovation</span></h1>
+    <p>Pioneering drug discovery research across cancer therapeutics, RNA design, precision oncology, and nutraceuticals using integrated AI-driven computational approaches.</p>
+  </div>
+</div>
+
+<!-- Research Focus Areas -->
+<section style="background:var(--white)">
+<div class="section-inner">
+  <div class="reveal" style="margin-bottom:3rem">
+    <div class="s-tag">Focus Areas</div>
+    <h2 class="s-title s-title-dark">Our Research <span class="teal">Focus Areas</span></h2>
+    <p class="s-sub s-sub-dark">Pioneering research across multiple therapeutic domains using integrated computational approaches.</p>
+  </div>
+  <div class="research-grid">
+    <div class="research-card-anim rc-blue reveal delay-1">
+      <span class="rc-icon">🧬</span>
+      <div class="rc-title">Cancer Therapeutics</div>
+      <p class="rc-text">AI-driven discovery of targeted anticancer molecules, exploring novel mechanisms and precision oncology strategies for multiple cancer types including breast, lung, and colorectal cancers.</p>
+      <div class="rc-tags"><span class="rc-tag">Oncology</span><span class="rc-tag">CADD</span><span class="rc-tag">AI Screening</span><span class="rc-tag">Targeted Therapy</span></div>
+    </div>
+    <div class="research-card-anim rc-teal reveal delay-2">
+      <span class="rc-icon">💉</span>
+      <div class="rc-title">RNA-Based Drug Design</div>
+      <p class="rc-text">Computational design of RNA therapeutics and vaccines using advanced structure prediction, optimization, and delivery system analysis for infectious diseases and genetic disorders.</p>
+      <div class="rc-tags"><span class="rc-tag">mRNA</span><span class="rc-tag">siRNA</span><span class="rc-tag">Vaccine Design</span><span class="rc-tag">Delivery</span></div>
+    </div>
+    <div class="research-card-anim rc-orange reveal delay-3">
+      <span class="rc-icon">🧪</span>
+      <div class="rc-title">Precision Oncology</div>
+      <p class="rc-text">Mutation-based personalized drug discovery leveraging genomic datasets, functional pathway analysis, and patient-specific biomarker identification for individualized therapeutic strategies.</p>
+      <div class="rc-tags"><span class="rc-tag">Genomics</span><span class="rc-tag">Biomarkers</span><span class="rc-tag">Precision Medicine</span></div>
+    </div>
+    <div class="research-card-anim rc-green reveal delay-4">
+      <span class="rc-icon">🍊</span>
+      <div class="rc-title">Functional Foods &amp; Nutraceuticals</div>
+      <p class="rc-text">Bioactive compound discovery and computational characterization for disease prevention, health optimization, and therapeutic adjuvant applications with full ADMET profiling.</p>
+      <div class="rc-tags"><span class="rc-tag">Phytochemicals</span><span class="rc-tag">ADMET</span><span class="rc-tag">Safety Profiling</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Methodology -->
+<section style="background:var(--grey-light)">
+<div class="section-inner">
+  <div class="reveal" style="text-align:center;margin-bottom:3rem">
+    <div class="s-tag">Methodology</div>
+    <h2 class="s-title s-title-dark">Our Research <span class="teal">Methodology</span></h2>
+  </div>
+  <div class="expertise-grid">
+    <div class="tilt-card reveal delay-1"><div class="tilt-card-bar"></div><div class="card-icon-wrap icon-teal-bg">🎯</div><div class="card-title-t">Target Identification</div><p class="card-text-t">Systematic identification of disease-relevant molecular targets using network biology and AI-driven analysis of multi-omics datasets.</p></div>
+    <div class="tilt-card reveal delay-2"><div class="tilt-card-bar"></div><div class="card-icon-wrap icon-orange-bg">🕸️</div><div class="card-title-t">Systems Biology</div><p class="card-text-t">Network pharmacology approaches to understand disease mechanisms, drug-target interactions, and polypharmacological effects.</p></div>
+    <div class="tilt-card reveal delay-3"><div class="tilt-card-bar"></div><div class="card-icon-wrap icon-teal-bg">💊</div><div class="card-title-t">Lead Optimization</div><p class="card-text-t">Structure-activity relationship analysis, scaffold hopping, and bioisosteric replacement to optimize lead compounds for efficacy.</p></div>
+    <div class="tilt-card reveal delay-2"><div class="tilt-card-bar"></div><div class="card-icon-wrap icon-orange-bg">📊</div><div class="card-title-t">Validation &amp; Analysis</div><p class="card-text-t">Rigorous computational validation through binding energy calculations, ADMET profiling, and molecular dynamics stability analysis.</p></div>
+    <div class="tilt-card reveal delay-3"><div class="tilt-card-bar"></div><div class="card-icon-wrap icon-teal-bg">🤖</div><div class="card-title-t">AI Integration</div><p class="card-text-t">Machine learning models trained on curated bioactivity data for accelerated virtual screening and property prediction.</p></div>
+    <div class="tilt-card reveal delay-4"><div class="tilt-card-bar"></div><div class="card-icon-wrap icon-orange-bg">📝</div><div class="card-title-t">Publication &amp; Dissemination</div><p class="card-text-t">Research findings published in peer-reviewed journals with open collaboration for knowledge sharing and scientific advancement.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PUBLICATIONS — Live from Zotero API
+     User: krishnamboori  |  userID: 19907806
+     ═══════════════════════════════════════════════════ -->
+<section id="publications" style="background:var(--white)">
+<div class="section-inner">
+
+  <div class="reveal" style="margin-bottom:2.5rem">
+    <div class="s-tag">Publications</div>
+    <h2 class="s-title s-title-dark">Our <span class="teal">Publications</span></h2>
+    <p class="s-sub s-sub-dark">Peer-reviewed research contributions from our team, pulled live from our Zotero library.</p>
+  </div>
+
+  <!-- Filter buttons -->
+  <div id="zot-filters" style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:1.5rem;opacity:0;transition:opacity 0.5s">
+    <button class="zot-filter-btn active" data-type="all"            onclick="filterZotero('all')">All</button>
+    <button class="zot-filter-btn" data-type="journalArticle"        onclick="filterZotero('journalArticle')">Journal Articles</button>
+    <button class="zot-filter-btn" data-type="bookSection"           onclick="filterZotero('bookSection')">Book Chapters</button>
+    <button class="zot-filter-btn" data-type="conferencePaper"       onclick="filterZotero('conferencePaper')">Conference Papers</button>
+    <button class="zot-filter-btn" data-type="preprint"              onclick="filterZotero('preprint')">Preprints</button>
+  </div>
+
+  <!-- Count -->
+  <p id="zot-count" style="display:none;color:rgba(0,0,0,0.4);font-family:'Montserrat',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:1px;margin-bottom:1.5rem">
+    Showing <span id="zot-count-num">0</span> publications
+  </p>
+
+  <!-- Loading -->
+  <div id="zot-loading" style="text-align:center;padding:4rem 0">
+    <div style="display:inline-flex;flex-direction:column;align-items:center;gap:1rem">
+      <div class="zot-spinner"></div>
+      <p style="color:rgba(0,0,0,0.4);font-family:'Montserrat',sans-serif;font-size:0.85rem">Loading publications from Zotero…</p>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div id="zot-error" style="display:none;text-align:center;padding:3rem;background:rgba(255,80,80,0.04);border:1px solid rgba(255,80,80,0.15);border-radius:16px">
+    <div style="font-size:2.5rem;margin-bottom:1rem">⚠️</div>
+    <p style="font-family:'Montserrat',sans-serif;font-weight:700;color:#c00;margin-bottom:0.5rem">Could not load publications</p>
+    <p id="zot-error-msg" style="color:rgba(0,0,0,0.5);font-size:0.85rem;margin-bottom:0.4rem"></p>
+    <p style="color:rgba(0,0,0,0.35);font-size:0.8rem">
+      Check that the Zotero library is accessible and the API key has read permissions.<br>
+      You can verify at: <a href="https://www.zotero.org/settings/keys" target="_blank" style="color:var(--teal-dim)">zotero.org/settings/keys</a>
+    </p>
+  </div>
+
+  <!-- Empty library -->
+  <div id="zot-empty" style="display:none;text-align:center;padding:3rem;background:rgba(0,212,255,0.03);border:1px solid rgba(0,212,255,0.1);border-radius:16px">
+    <div style="font-size:2.5rem;margin-bottom:1rem">📚</div>
+    <p style="font-family:'Montserrat',sans-serif;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem">No publications yet</p>
+    <p style="color:rgba(0,0,0,0.4);font-size:0.85rem">Add items to your Zotero library and they will appear here automatically.</p>
+  </div>
+
+  <!-- Grid -->
+  <div id="zot-grid" style="display:none;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.4rem"></div>
+
+  <!-- Load more -->
+  <div id="zot-loadmore" style="display:none;text-align:center;margin-top:2.5rem">
+    <button onclick="loadMoreZotero()" class="btn-mag btn-ghost-mag" style="cursor:pointer;border:1.5px solid rgba(0,212,255,0.3)">
+      Load More Publications ↓
+    </button>
+  </div>
+
+</div>
+</section>
+
+<!-- Collaborate CTA -->
+<section style="background:linear-gradient(135deg,#030a14 0%,#08183a 60%,#0c2050 100%);text-align:center;padding:6rem 3rem">
+<div style="max-width:700px;margin:0 auto" class="reveal">
+  <div class="s-tag" style="color:var(--teal)">Collaborate</div>
+  <h2 class="s-title s-title-light">Join Our <span class="teal">Research Network</span></h2>
+  <p class="s-sub s-sub-light" style="margin:0 auto 2.5rem">Partner with Biopharma Solutions for joint research projects, co-authorship, and access to our computational infrastructure.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+    <a href="collaboration.html" class="btn-mag btn-primary-mag">🔬 Research Partnership</a>
+    <a href="publications.html"  class="btn-mag btn-ghost-mag">📄 All Publications</a>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div style="max-width:1300px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,0.06)">
+    <div>
+      <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:0.5rem">
+        <div style="width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--teal),var(--orange));display:flex;align-items:center;justify-content:center;font-size:16px">🔬</div>
+        <span style="color:var(--white);font-family:'Montserrat',sans-serif;font-weight:800;font-size:1rem">Biopharma<span style="color:var(--teal)">Solutions</span></span>
+      </a>
+      <p style="color:var(--teal);font-style:italic;font-size:0.82rem;margin:0.5rem 0">The R&amp;D Solution to Academic Needs</p>
+      <p style="color:rgba(255,255,255,0.4);font-size:0.84rem;line-height:1.8;max-width:240px">Advancing drug discovery through computational biology, artificial intelligence, and systems pharmacology.</p>
+      <div style="display:flex;gap:0.7rem;margin-top:1rem">
+        <a href="#" style="width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.85rem;font-weight:700;transition:all 0.3s">in</a>
+        <a href="#" style="width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.85rem;font-weight:700;transition:all 0.3s">RG</a>
+        <a href="mailto:info@biopharmasolutions.in" style="width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.85rem;transition:all 0.3s">✉</a>
+      </div>
+    </div>
+    <div>
+      <h4 style="color:rgba(255,255,255,0.8);font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.2rem">Quick Links</h4>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:0.6rem">
+        <li><a href="index.html"         style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem;transition:color 0.2s">Home</a></li>
+        <li><a href="about.html"         style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem;transition:color 0.2s">About</a></li>
+        <li><a href="research.html"      style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem;transition:color 0.2s">Research</a></li>
+        <li><a href="cadd.html"          style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem;transition:color 0.2s">CADD Platform</a></li>
+        <li><a href="training.html"      style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem;transition:color 0.2s">Training</a></li>
+        <li><a href="contact.html"       style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem;transition:color 0.2s">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:rgba(255,255,255,0.8);font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.2rem">Resources</h4>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:0.6rem">
+        <li><a href="resources.html"     style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem">Knowledge Hub</a></li>
+        <li><a href="resources.html"     style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem">Tutorials</a></li>
+        <li><a href="resources.html"     style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem">Case Studies</a></li>
+        <li><a href="publications.html"  style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem">Publications</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:rgba(255,255,255,0.8);font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.2rem">Services</h4>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:0.6rem">
+        <li><a href="services.html"      style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem">Drug Design</a></li>
+        <li><a href="services.html"      style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem">MD Simulation</a></li>
+        <li><a href="services.html"      style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem">Network Pharmacology</a></li>
+        <li><a href="collaboration.html" style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.84rem">Collaboration</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="max-width:1300px;margin:1.5rem auto 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
+    <p style="color:rgba(255,255,255,0.25);font-size:0.78rem">© 2025 Biopharma Solutions. All rights reserved.</p>
+    <p style="color:rgba(255,255,255,0.25);font-size:0.78rem">info@biopharmasolutions.in</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     Zotero API — krishnamboori / userID 19907806
+     ═══════════════════════════════════════════════ -->
+<script data-cfasync="false">
+
+/* ── Zotero credentials ── */
+var ZOT_KEY  = '9DDLeO0IK0gfI3uyhps4QscJ';
+var ZOT_TYPE = 'users';
+var ZOT_ID   = '19907806';
+var PER_PAGE = 12;
+
+/* ── State ── */
+var zotAll      = [];
+var zotFiltered = [];
+var zotShown    = 0;
+
+/* ── Helpers ── */
+var TYPE_LABELS = {
+  journalArticle: 'Journal Article', bookSection: 'Book Chapter',
+  conferencePaper: 'Conference Paper', preprint: 'Preprint',
+  thesis: 'Thesis', report: 'Report', book: 'Book'
+};
+function typeLabel(t){ return TYPE_LABELS[t] || (t ? t.replace(/([A-Z])/g,' $1').trim() : 'Publication'); }
+function typeBadge(t){
+  if(t==='journalArticle')  return 'zot-badge-article';
+  if(t==='bookSection')     return 'zot-badge-chapter';
+  if(t==='conferencePaper') return 'zot-badge-conf';
+  if(t==='preprint')        return 'zot-badge-preprint';
+  return 'zot-badge-other';
+}
+function fmtAuthors(creators){
+  if(!creators||!creators.length) return '';
+  var names=creators
+    .filter(function(c){return c.creatorType==='author';})
+    .map(function(c){
+      if(c.lastName&&c.firstName) return c.lastName+' '+c.firstName[0]+'.';
+      return c.name||'';
+    }).filter(Boolean);
+  if(!names.length) return '';
+  if(names.length>5) return names.slice(0,5).join(', ')+' <em>et al.</em>';
+  return names.join(', ');
+}
+
+/* ── Build one card ── */
+function makeCard(item){
+  var d=item.data;
+  var year   = d.date ? String(d.date).substring(0,4) : '';
+  var venue  = d.publicationTitle||d.bookTitle||d.conferenceName||d.university||'';
+  var link   = d.DOI ? 'https://doi.org/'+d.DOI : (d.url||'');
+  var authors= fmtAuthors(d.creators);
+  var card   = document.createElement('div');
+  card.className='zot-card';
+  card.setAttribute('data-type', d.itemType||'');
+  card.innerHTML=
+    '<span class="zot-type-badge '+typeBadge(d.itemType)+'">'+typeLabel(d.itemType)+'</span>'+
+    '<div class="zot-title">'+(d.title||'Untitled')+'</div>'+
+    (authors?'<div class="zot-authors">'+authors+'</div>':'')+
+    (venue  ?'<div class="zot-journal">'+venue+'</div>':'')+
+    '<div class="zot-meta">'+
+      (year?'<span class="zot-year">'+year+'</span>':'')+
+      (link?'<a href="'+link+'" target="_blank" rel="noopener" class="zot-doi">View ↗</a>':'')+
+    '</div>';
+  return card;
+}
+
+/* ── Render cards into grid ── */
+function renderGrid(items, append){
+  var grid=document.getElementById('zot-grid');
+  if(!append) grid.innerHTML='';
+  if(!items.length&&!append){
+    grid.innerHTML='<div class="zot-empty">No publications found for this filter.</div>';
+    return;
+  }
+  var frag=document.createDocumentFragment();
+  items.forEach(function(i){ frag.appendChild(makeCard(i)); });
+  grid.appendChild(frag);
+}
+
+/* ── Filter ── */
+function filterZotero(type){
+  document.querySelectorAll('.zot-filter-btn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-type')===type);
+  });
+  zotFiltered=(type==='all') ? zotAll : zotAll.filter(function(i){return i.data.itemType===type;});
+  zotShown=Math.min(PER_PAGE, zotFiltered.length);
+  renderGrid(zotFiltered.slice(0,zotShown), false);
+  document.getElementById('zot-count-num').textContent=zotFiltered.length;
+  document.getElementById('zot-loadmore').style.display=
+    zotFiltered.length>zotShown ? 'block' : 'none';
+}
+
+/* ── Load more ── */
+function loadMoreZotero(){
+  var next=zotFiltered.slice(zotShown, zotShown+PER_PAGE);
+  zotShown+=next.length;
+  renderGrid(next, true);
+  if(zotShown>=zotFiltered.length)
+    document.getElementById('zot-loadmore').style.display='none';
+}
+
+/* ── Fetch from Zotero API ── */
+function fetchZotero(){
+  var url='https://api.zotero.org/'+ZOT_TYPE+'/'+ZOT_ID+
+          '/items/top?format=json&limit=100&sort=date&direction=desc&itemType=-attachment+-note';
+  fetch(url,{
+    headers:{
+      'Zotero-API-Version':'3',
+      'Authorization':'Bearer '+ZOT_KEY
+    }
+  })
+  .then(function(res){
+    if(!res.ok) throw new Error('Zotero API returned '+res.status+' ('+res.statusText+')');
+    return res.json();
+  })
+  .then(function(data){
+    zotAll=data.filter(function(i){return i.data&&i.data.title;});
+    document.getElementById('zot-loading').style.display='none';
+
+    if(zotAll.length===0){
+      document.getElementById('zot-empty').style.display='block';
+      return;
+    }
+    document.getElementById('zot-grid').style.display    ='grid';
+    document.getElementById('zot-filters').style.opacity ='1';
+    document.getElementById('zot-count').style.display   ='block';
+    filterZotero('all');
+  })
+  .catch(function(err){
+    document.getElementById('zot-loading').style.display='none';
+    document.getElementById('zot-error').style.display  ='block';
+    document.getElementById('zot-error-msg').textContent=err.message;
+  });
+}
+
+/* ── Page interactions (cursor, nav, scroll reveal, tilt) ── */
+(function(){
+  var cursor=document.getElementById('cursor');
+  var ring  =document.getElementById('cursorRing');
+  if(cursor&&ring){
+    var mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',function(e){
+      mx=e.clientX; my=e.clientY;
+      cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+    });
+    (function animRing(){
+      rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+      ring.style.left=rx+'px'; ring.style.top=ry+'px';
+      requestAnimationFrame(animRing);
+    })();
+    document.querySelectorAll('a,button,.tilt-card,.research-card-anim,.zot-card').forEach(function(el){
+      el.addEventListener('mouseenter',function(){cursor.classList.add('hover');ring.classList.add('hover');});
+      el.addEventListener('mouseleave',function(){cursor.classList.remove('hover');ring.classList.remove('hover');});
+    });
+  }
+
+  var nav=document.getElementById('mainNav');
+  if(nav){
+    window.addEventListener('scroll',function(){
+      nav.classList.toggle('scrolled',window.scrollY>60);
+      var st=document.getElementById('scrollTop');
+      if(st) st.classList.toggle('visible',window.scrollY>400);
+    });
+  }
+
+  var revObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ revObs.observe(el); });
+
+  document.querySelectorAll('.tilt-card').forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var x=e.clientX-r.left, y=e.clientY-r.top;
+      card.style.transform='perspective(800px) rotateX('+((-(y-r.height/2)/r.height)*8*2)+'deg) rotateY('+(((x-r.width/2)/r.width)*8*2)+'deg) translateZ(10px)';
+      card.style.setProperty('--mx',(x/r.width*100)+'%');
+      card.style.setProperty('--my',(y/r.height*100)+'%');
+    });
+    card.addEventListener('mouseleave',function(){
+      card.style.transform='perspective(800px) rotateX(0) rotateY(0) translateZ(0)';
+    });
+  });
+
+  document.querySelectorAll('.btn-mag').forEach(function(btn){
+    btn.addEventListener('mousemove',function(e){
+      var r=btn.getBoundingClientRect();
+      btn.style.transform='translate('+(e.clientX-r.left-r.width/2)*0.2+'px,'+(e.clientY-r.top-r.height/2)*0.3+'px)';
+    });
+    btn.addEventListener('mouseleave',function(){ btn.style.transform=''; });
+  });
+
+  /* Kick off Zotero fetch */
+  fetchZotero();
+})();
+</script>
+</body>
+</html>

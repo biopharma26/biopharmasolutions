@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zotero Debug Tool – Biopharma Solutions</title>
+<style>
+  body { font-family: monospace; background: #0d1117; color: #e6edf3; padding: 2rem; max-width: 900px; margin: 0 auto; }
+  h1   { color: #58a6ff; font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .sub { color: #8b949e; font-size: 0.85rem; margin-bottom: 2rem; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem; }
+  .card h2 { font-size: 0.9rem; margin: 0 0 0.8rem; color: #79c0ff; }
+  .pass  { color: #3fb950; } /* green  */
+  .fail  { color: #f85149; } /* red    */
+  .warn  { color: #d29922; } /* yellow */
+  .info  { color: #8b949e; }
+  pre  { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 0.8rem; overflow-x: auto; font-size: 0.78rem; white-space: pre-wrap; word-break: break-all; margin: 0.5rem 0 0; }
+  .btn { background: #238636; color: #fff; border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-size: 0.88rem; cursor: pointer; margin-top: 1rem; }
+  .btn:hover { background: #2ea043; }
+  .status { font-size: 0.82rem; margin-top: 0.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 0.5rem; }
+  td, th { padding: 0.4rem 0.6rem; border: 1px solid #30363d; text-align: left; }
+  th { background: #161b22; color: #8b949e; }
+  tr:nth-child(even) { background: #0d1117; }
+</style>
+</head>
+<body>
+
+<h1>🔬 Zotero API Debug Tool</h1>
+<p class="sub">Diagnosing publication loading for Biopharma Solutions · userID 19907806</p>
+
+<!-- Test 1: Protocol check -->
+<div class="card">
+  <h2>Test 1 — Page Protocol</h2>
+  <div id="t1"></div>
+</div>
+
+<!-- Test 2: Network / CORS -->
+<div class="card">
+  <h2>Test 2 — Zotero API Reachability &amp; CORS</h2>
+  <div id="t2"><span class="info">Running…</span></div>
+</div>
+
+<!-- Test 3: API Key validity -->
+<div class="card">
+  <h2>Test 3 — API Key Permissions</h2>
+  <div id="t3"><span class="info">Running…</span></div>
+</div>
+
+<!-- Test 4: Library contents -->
+<div class="card">
+  <h2>Test 4 — Library Items</h2>
+  <div id="t4"><span class="info">Running…</span></div>
+</div>
+
+<!-- Summary -->
+<div class="card" id="summary" style="display:none">
+  <h2>📋 Summary &amp; Fix</h2>
+  <div id="summary-text"></div>
+</div>
+
+<script>
+var API_KEY = '9DDLeO0IK0gfI3uyhps4QscJ';
+var USER_ID = '19907806';
+var BASE    = 'https://api.zotero.org/users/' + USER_ID;
+var HEADERS = { 'Zotero-API-Version': '3', 'Authorization': 'Bearer ' + API_KEY };
+
+var issues = [];
+
+/* ── Test 1: Protocol ── */
+(function(){
+  var proto = location.protocol;
+  var el    = document.getElementById('t1');
+  if (proto === 'file:') {
+    el.innerHTML = '<span class="fail">✗ FAIL — Page is opened as a local file (file://)</span>' +
+      '<p class="status">Browsers block all external API calls when using <code>file://</code>. ' +
+      'You must upload the page to a web server (even a local one like Live Server in VS Code).</p>';
+    issues.push('file_protocol');
+  } else if (proto === 'https:') {
+    el.innerHTML = '<span class="pass">✓ PASS — Running over HTTPS (' + location.origin + ')</span>';
+  } else {
+    el.innerHTML = '<span class="warn">⚠ Running over HTTP (' + location.origin + ') — ' +
+      'Zotero API is HTTPS so mixed-content may be blocked in some browsers.</span>';
+    issues.push('http_protocol');
+  }
+})();
+
+/* ── Test 2: Reachability ── */
+fetch('https://api.zotero.org/', { headers: HEADERS })
+  .then(function(r){
+    var el = document.getElementById('t2');
+    if (r.ok || r.status === 404) {
+      el.innerHTML = '<span class="pass">✓ PASS — api.zotero.org is reachable (HTTP ' + r.status + '). No CORS block.</span>';
+    } else {
+      el.innerHTML = '<span class="warn">⚠ api.zotero.org responded with HTTP ' + r.status + '</span>';
+    }
+    return runTest3();
+  })
+  .catch(function(err){
+    var el = document.getElementById('t2');
+    var msg = err.message || String(err);
+    if (msg.toLowerCase().indexOf('cors') > -1 || msg.toLowerCase().indexOf('network') > -1 || msg.toLowerCase().indexOf('failed') > -1) {
+      el.innerHTML = '<span class="fail">✗ FAIL — Network/CORS error: ' + msg + '</span>' +
+        '<p class="status">Possible causes: (1) opening as file://, (2) browser extension blocking requests, ' +
+        '(3) strict firewall on this server.</p>';
+      issues.push('cors_or_network');
+    } else {
+      el.innerHTML = '<span class="fail">✗ Error: ' + msg + '</span>';
+      issues.push('network_unknown');
+    }
+    showSummary();
+  });
+
+/* ── Test 3: API Key ── */
+function runTest3(){
+  return fetch(BASE + '/keys/' + API_KEY, { headers: HEADERS })
+    .then(function(r){ return r.json().then(function(d){ return {status: r.status, data: d}; }); })
+    .then(function(res){
+      var el = document.getElementById('t3');
+      if (res.status === 200) {
+        var perms = res.data.access || {};
+        var canRead = (perms.user && perms.user.library) ? perms.user.library : false;
+        el.innerHTML = '<span class="pass">✓ PASS — API key is valid</span>' +
+          '<pre>Key name : ' + (res.data.name||'(unnamed)') + '\n' +
+          'User ID  : ' + (res.data.userID||'?') + '\n' +
+          'Library read access: ' + (canRead ? '✓ YES' : '✗ NO — key may need read permission') + '</pre>';
+        if (!canRead) issues.push('no_read_permission');
+      } else if (res.status === 403 || res.status === 404) {
+        el.innerHTML = '<span class="fail">✗ FAIL — API key invalid or not found (HTTP ' + res.status + ')</span>' +
+          '<p class="status">Go to <a href="https://www.zotero.org/settings/keys" target="_blank" ' +
+          'style="color:#58a6ff">zotero.org/settings/keys</a> and create a new key with library read access.</p>';
+        issues.push('bad_api_key');
+      } else {
+        el.innerHTML = '<span class="warn">⚠ Unexpected response: HTTP ' + res.status + '</span><pre>' + JSON.stringify(res.data,null,2) + '</pre>';
+      }
+      return runTest4();
+    })
+    .catch(function(err){
+      document.getElementById('t3').innerHTML = '<span class="fail">✗ Could not check key: ' + err.message + '</span>';
+      return runTest4();
+    });
+}
+
+/* ── Test 4: Library items ── */
+function runTest4(){
+  return fetch(BASE + '/items/top?format=json&limit=10&sort=date&direction=desc&itemType=-attachment+-note', { headers: HEADERS })
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status + ' ' + r.statusText);
+      var total = r.headers.get('Total-Results') || '?';
+      return r.json().then(function(data){ return {total: total, data: data}; });
+    })
+    .then(function(res){
+      var el = document.getElementById('t4');
+      if (res.data.length === 0) {
+        el.innerHTML = '<span class="warn">⚠ Library is empty — no top-level items found.</span>' +
+          '<p class="status">Make sure you have added items in Zotero <strong>and synced</strong> ' +
+          '(Edit → Sync → Sync Now, or the green sync button).<br>' +
+          'Total items reported by API: ' + res.total + '</p>';
+        issues.push('empty_library');
+      } else {
+        var rows = res.data.map(function(i){
+          var d = i.data;
+          return '<tr><td>'+(d.title||'Untitled').substring(0,60)+(d.title&&d.title.length>60?'…':'')+'</td>' +
+                 '<td>'+d.itemType+'</td>' +
+                 '<td>'+(d.date?String(d.date).substring(0,4):'—')+'</td>' +
+                 '<td>'+(d.DOI||d.url?'✓':'—')+'</td></tr>';
+        }).join('');
+        el.innerHTML = '<span class="pass">✓ PASS — Found <strong>' + res.total + '</strong> total items. Showing first ' + res.data.length + ':</span>' +
+          '<table><tr><th>Title</th><th>Type</th><th>Year</th><th>DOI/URL</th></tr>' + rows + '</table>';
+      }
+      showSummary();
+    })
+    .catch(function(err){
+      document.getElementById('t4').innerHTML = '<span class="fail">✗ Could not fetch items: ' + err.message + '</span>';
+      issues.push('fetch_failed');
+      showSummary();
+    });
+}
+
+/* ── Summary ── */
+function showSummary(){
+  var el = document.getElementById('summary');
+  var tx = document.getElementById('summary-text');
+  el.style.display = 'block';
+
+  if (issues.length === 0) {
+    tx.innerHTML = '<span class="pass">✓ Everything looks good!</span> ' +
+      'The Zotero integration should work. If the main page still fails, try:<br>' +
+      '1. Hard-refresh (Ctrl+Shift+R)<br>' +
+      '2. Check browser console (F12 → Console) for any JS errors on the research.html page.';
+    return;
+  }
+
+  var fixes = {
+    file_protocol:     '<span class="fail">🔴 Root cause: File opened as file://</span><br>Fix: Upload to a web server, or use VS Code Live Server extension to preview locally.',
+    http_protocol:     '<span class="warn">🟡 Page is on HTTP not HTTPS</span><br>Fix: Enable HTTPS on your hosting, or test on a modern browser that may allow it.',
+    cors_or_network:   '<span class="fail">🔴 Root cause: API call is being blocked (CORS / network)</span><br>Fix: Ensure the page is served from a real domain (not file://). Check browser extensions like ad-blockers.',
+    bad_api_key:       '<span class="fail">🔴 Root cause: API key is invalid</span><br>Fix: Go to <a href="https://www.zotero.org/settings/keys" target="_blank" style="color:#58a6ff">zotero.org/settings/keys</a>, delete the old key and create a new one with "Allow library access" checked.',
+    no_read_permission:'<span class="warn">🟡 API key lacks read permission</span><br>Fix: Edit the key at zotero.org/settings/keys and enable "Allow library access (read only)".',
+    empty_library:     '<span class="warn">🟡 Root cause: Zotero library is empty</span><br>Fix: Add items in Zotero desktop app, then sync (green ↻ button in top-right). Wait 30 seconds and reload this page.',
+    fetch_failed:      '<span class="fail">🔴 Items fetch failed</span><br>Fix: Check the specific error above.',
+    network_unknown:   '<span class="fail">🔴 Unknown network error</span><br>Check browser console (F12) for details.'
+  };
+
+  tx.innerHTML = issues.map(function(k){ return '<p style="margin:0.5rem 0">' + (fixes[k]||k) + '</p>'; }).join('');
+}
+</script>
+</body>
+</html>
